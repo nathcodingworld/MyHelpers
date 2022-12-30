@@ -1,9 +1,20 @@
+interface RendererParam {
+  media: {
+    xxl: number;
+    xl: number;
+    lg: number;
+    md: number;
+    sm: number;
+  };
+  targets: string[];
+}
+
 class Renderer {
   media;
   mediaCollection;
-  constructor(param = {}) {
-    this.media = param.media ?? { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 };
-    this.mediaCollection = param.targets ?? [];
+  constructor(param: RendererParam = { media: { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 }, targets: [] }) {
+    this.media = param.media;
+    this.mediaCollection = param.targets;
   }
   mediaQueries(queries) {
     queries.forEach((query) => this.mediaQuery(query));
@@ -155,5 +166,3 @@ class Renderer {
     if (parent && childEl) parent.innerHTML = childEl.innerHTML;
   }
 }
-
-export default Renderer;
