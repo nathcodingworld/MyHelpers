@@ -1,8 +1,11 @@
+"use strict";
+exports.__esModule = true;
 var Renderer = /** @class */ (function () {
     function Renderer(param) {
-        if (param === void 0) { param = { media: { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 }, targets: [] }; }
-        this.media = param.media;
-        this.mediaCollection = param.targets;
+        if (param === void 0) { param = {}; }
+        var _a, _b;
+        this.media = (_a = param.media) !== null && _a !== void 0 ? _a : { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 };
+        this.mediaCollection = (_b = param.targets) !== null && _b !== void 0 ? _b : [];
     }
     Renderer.prototype.mediaQueries = function (queries) {
         var _this = this;
@@ -163,3 +166,4 @@ var Renderer = /** @class */ (function () {
     };
     return Renderer;
 }());
+exports["default"] = Renderer;
