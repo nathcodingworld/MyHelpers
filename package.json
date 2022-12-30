@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Creating my Own Helpers",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "compileObserver": "concurrently \"sass Observer\" \"tsc Observer\"",
+    "activateObserver": "concurrently \"sass --watch Observer\" \"tsc -w Observer/Observer.ts\""
+  },
   "keywords": [],
   "author": "Nathaniel M.",
   "license": "ISC",
