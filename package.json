@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compileListener": "concurrently \"sass Listener\" \"tsc Listener\"",
-    "activateListener": "concurrently \"sass --watch Listener\" \"tsc -w Listener\""
+    "activateListener": "concurrently \"sass --watch Listener\" \"tsc -w Listener/Listener.ts\""
   },
   "keywords": [],
   "author": "Nathaniel M.",
