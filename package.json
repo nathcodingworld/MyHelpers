@@ -4,6 +4,8 @@
   "description": "Creating my Own Helpers",
   "main": "index.js",
   "scripts": {
+    "compileListener": "concurrently \"sass Listener\" \"tsc Listener\"",
+    "activateListener": "concurrently \"sass --watch Listener\" \"tsc -w Listener/Listener.ts\"",
     "compileObserver": "concurrently \"sass Observer\" \"tsc Observer\"",
     "activateObserver": "concurrently \"sass --watch Observer\" \"tsc -w Observer/Observer.ts\""
   },
