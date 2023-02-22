@@ -1,21 +1,8 @@
 
-type CCEType = {
-    style: string
-    template: string
-    script: {
-        initial: (root: HTMLElement | null) =>void
-        onMount: (root: HTMLElement | null) =>void | null
-        onDismount: (root: HTMLElement | null) =>void | null
-        onChangeAtt: (root: HTMLElement | null) =>void | null
-    }
-    data: {
-        name: string,
-        attributes: string[]
-    }
-}
+ 
 
 class Builder {
-    createCustomElement({style, template, script, data}: CCEType) {
+    createCustomElement({style, template, script, data}) {
         const newElement = document.createElement('template')
         newElement.innerHTML = '<style>'+style+'</style>' + template
         class customElement extends HTMLElement {
