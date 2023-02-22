@@ -1,25 +1,44 @@
+type mediaType =  {
+  xxl: number;
+  xl: number;
+  lg: number;
+  md: number;
+  sm: number;
+}
+type mediacollectionType = string[]
+
+type mediaqueryType = {
+  query: string,
+  run: () => void
+}
+
+type tableSpliterType = {
+  tableid: string;
+  tdFrom: number;
+  tdTo: number;
+}
+
+type setElementType = {
+  target: string;
+  set: (element: Element)=>void;
+}
+
 interface RendererParam {
-  media: {
-    xxl: number;
-    xl: number;
-    lg: number;
-    md: number;
-    sm: number;
-  };
-  targets: string[];
+  media:  mediaType;
+  targets: mediacollectionType;
 }
 
 class Renderer {
-  media;
-  mediaCollection;
+  media: mediaType;
+  mediaCollection: mediacollectionType
   constructor(param: RendererParam = { media: { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 }, targets: [] }) {
     this.media = param.media;
     this.mediaCollection = param.targets;
   }
-  mediaQueries(queries) {
+  mediaQueries(queries: mediaqueryType[]) {
     queries.forEach((query) => this.mediaQuery(query));
   }
-  mediaQuery({ query, run }) {
+  mediaQuery({ query, run }: mediaqueryType) {
     const [filter, mq] = query.split(":");
     const windowWidth = window.innerWidth;
     const [min, max] = mq.split("-");
@@ -42,12 +61,12 @@ class Renderer {
     }
     return this;
   }
-  tableSpliter({ tableid, tdFrom, tdTo }) {
+  tableSpliter({ tableid, tdFrom, tdTo }: tableSpliterType) {
     const table = document.getElementById(tableid);
     const targetHeadTr = table?.querySelector("thead > tr:not(.splitedtable thead tr)");
     const targetBodyTr = table?.querySelectorAll("tbody > tr:not(.splitedtable tbody tr)");
     const splitedTh = cutter(targetHeadTr);
-    targetBodyTr?.forEach((tr) => {
+    targetBodyTr?.forEach((tr:any) => {
       const splitedTd = cutter(tr);
       const splitedTr = document.createElement("tr");
       splitedTr.innerHTML = `
@@ -68,7 +87,7 @@ class Renderer {
              `;
       tr.insertAdjacentElement("afterend", splitedTr);
     });
-    function cutter(tr) {
+    function cutter(tr:any) {
       const trow = document.createElement("tr");
       if (tr.childElementCount >= tdTo)
         for (let i = tdFrom - 1; i < tdTo; i++) {
@@ -77,15 +96,15 @@ class Renderer {
       return trow;
     }
   }
-  displayToggler(target) {
+  displayToggler(target: string) {
     const [selector, display] = target.split(":");
-    const element = document.querySelector(selector);
+    const element: HTMLElement | null = document.querySelector(selector);
     if (element && display == "toggle") {
       if (element.style.display != "none") element.style.display = "none";
       else element.style.display = "block";
     } else if (element) element.style.display = display;
   }
-  classToggler(target) {
+  classToggler(target: string) {
     const [type, current, change, selector] = target.split(":");
     const element = document.querySelector(selector);
     if (element && type == "toggle") {
@@ -101,11 +120,11 @@ class Renderer {
       element.classList.add(change);
     }
   }
-  getElement(target, parent = null) {
+  getElement(target: string, parent: any = null) {
     let targetDocument = document;
     if (parent) targetDocument = parent;
     const [type, selector] = target.split(":");
-    let element;
+    let element: Element | null | NodeListOf<Element>;
     switch (type) {
       case "ByClass":
         element = targetDocument.querySelector("." + selector);
@@ -126,43 +145,39 @@ class Renderer {
         return null;
     }
   }
-  setElement({ target, set, param = {} }) {
+  setElement({ target, set }: setElementType) {
     const [type, selector] = target.split(":");
-    let element;
+    let element: Element | null | NodeListOf<Element>;
     switch (type) {
       case "ByClass":
         element = document.querySelector("." + selector);
-        if (element) set(element, param);
+        if (element) set(element);
         break;
       case "ById":
         element = document.getElementById(selector);
-        if (element) set(element, param);
+        if (element) set(element);
         break;
       case "sByClass":
         element = document.querySelectorAll("." + selector);
         if (element.length > 0)
-          element.forEach((el) => {
-            if (el) set(el, param);
+          element.forEach((el: Element) => {
+            if (el) set(el);
           });
         break;
       case "BySelector":
         element = document.querySelector(selector);
-        if (element) set(element, param);
+        if (element) set(element);
         break;
       case "sBySelector":
         element = document.querySelectorAll(selector);
         if (element.length > 0)
           element.forEach((el) => {
-            if (el) set(el, param);
+            if (el) set(el);
           });
         break;
       default:
         return null;
     }
     return this;
-  }
-  childPicker(parent, { target }) {
-    const childEl = this.getElement(target, parent);
-    if (parent && childEl) parent.innerHTML = childEl.innerHTML;
-  }
+  } 
 }
