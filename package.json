@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Creating my Own Helpers",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "compileBuilder": "concurrently \"sass Builder\" \"tsc Builder\"",
+    "activateBuilder": "concurrently \"sass --watch Builder\" \"tsc -w Builder/Builder.ts\""
+  },
   "keywords": [],
   "author": "Nathaniel M.",
   "license": "ISC",
