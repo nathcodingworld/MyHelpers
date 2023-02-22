@@ -41,19 +41,22 @@ class Renderer {
   mediaQuery({ query, run }: mediaqueryType) {
     const [filter, mq] = query.split(":");
     const windowWidth = window.innerWidth;
-    const [min, max] = mq.split("-");
+    const [min, max] = mq.split("-");  
+    const mediaq = mq == 'lg' || mq == 'md' || mq == 'sm' || mq == 'xl' || mq == 'xxl'
+    const mediaminq = min == 'lg' || min == 'md' || min == 'sm' || min == 'xl' || min == 'xxl'
+    const mediamaxq = max == 'lg' || max == 'md' || max == 'sm' || max == 'xl' || max == 'xxl'
     switch (filter) {
       case "min":
-        if (windowWidth >= this.media[mq]) run();
+        if ( mediaq &&  windowWidth >= this.media[mq]) run();
         break;
       case "max":
-        if (windowWidth < this.media[mq]) run();
+        if (mediaq && windowWidth < this.media[mq]) run();
         break;
       case "between":
-        if (windowWidth >= this.media[min] && windowWidth < this.media[max]) run();
+        if ((mediaminq && windowWidth >= this.media[min]) && (mediamaxq && windowWidth < this.media[max])) run();
         break;
       case "around":
-        if (windowWidth < this.media[min] || windowWidth >= this.media[max]) run();
+        if (mediaminq && windowWidth < this.media[min] || (mediamaxq && windowWidth >= this.media[max])) run();
         break;
       default:
         console.log("not valid query", query);
