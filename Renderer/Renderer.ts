@@ -44,10 +44,10 @@ class Renderer {
   }
   tableSpliter({ tableid, tdFrom, tdTo }) {
     const table = document.getElementById(tableid);
-    const targetHeadTr = table.querySelector("thead > tr:not(.splitedtable thead tr)");
-    const targetBodyTr = table.querySelectorAll("tbody > tr:not(.splitedtable tbody tr)");
+    const targetHeadTr = table?.querySelector("thead > tr:not(.splitedtable thead tr)");
+    const targetBodyTr = table?.querySelectorAll("tbody > tr:not(.splitedtable tbody tr)");
     const splitedTh = cutter(targetHeadTr);
-    targetBodyTr.forEach((tr) => {
+    targetBodyTr?.forEach((tr) => {
       const splitedTd = cutter(tr);
       const splitedTr = document.createElement("tr");
       splitedTr.innerHTML = `
