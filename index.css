@@ -1,1 +1,6 @@
 @import url(Builder/Builder.css);
+
+.panel {
+    color: red;
+    background: blue;
+}
