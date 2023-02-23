@@ -7,19 +7,18 @@ class Observer {
     this.interval = lookEvery;
     this.time = lookEvery;
     this.wake(sleepAt);
-    if (targets.length > 0) this.targets = targets;
+    this.targets = targets;
   }
   wake(timeout) {
     this.clock = setInterval(() => {
+      if (timeout && this.time > timeout) clearInterval(this.clock);
       this._run();
-      if (timeout && this.time > timeout) this._sleep();
       this.time = this.time + this.interval;
     }, this.interval);
   }
   _sleep() {
-    clearInterval(this.clock);
-    this.clock = null;
     console.log("sleeped");
+    clearInterval(this.clock);
   }
   observe({ iftrue, dotask, sleepAt = 4000, lookOnce = false }) {
     this.targets.push({ iftrue, dotask, lookOnce });
@@ -34,16 +33,12 @@ class Observer {
             console.log("hit");
             tg.dotask();
             this.targets.splice(i, 1);
-          } else if (tg.lookOnce) this.targets.splice(i, 1);
-          else console.log("not hit");
+          } 
+          if (tg.lookOnce) this.targets.splice(i, 1); 
         });
-      else {
-        this._sleep();
-      }
+      else  this._sleep(); 
     } catch (error) {
       this._sleep();
     }
   }
-}
-
-export default Observer;
+} 
