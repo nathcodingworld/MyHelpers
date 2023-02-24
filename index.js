@@ -65,3 +65,16 @@ BD.buildCustomComponent({
 })
  
 BD.registerAccordion({ name: 'custom', })
+BD.buildCard({name: 'product', actionFW: true})
+
+ document.getElementById('rt').addEventListener('click',()=> {
+    document.querySelectorAll('product-card').forEach(el=> {
+        el.setAttribute('display', 'flex')
+    })
+ })
+
+ document.getElementById('re').addEventListener('click',()=> {
+    document.querySelectorAll('product-card').forEach(el=> {
+        el.setAttribute('display', 'grid')
+    })
+ })
