@@ -1,4 +1,4 @@
-const BD = new Builder()
+const BD = new BuilderExtemsion()
 
  
 BD.buildCustomComponent({ 
