@@ -2,33 +2,39 @@ class Listener {
   collections = {}
   listens(events) {
     events.forEach((event) => this.listen(event));
+    return this;
   } 
   listen({ target, callback, element, options = {}}) {   
-    const [custom, event, type, selector] = target.split(":")  
-    const registerItem = (item) => {
-      if(custom[custom.length-1] === '_')  this.collections[custom] ? this.collections[custom].push(item) : this.collections[custom] = [item]
-      else if(custom && !this.collections[custom]) this.collections[custom] = item
-    }
-    if(element && element instanceof HTMLElement ) { 
-      element.addEventListener(event, callback, options) 
-      registerItem(element)
-    } else {
-      let element = []
-      if(type === 'all')  element = document.querySelectorAll(selector) 
-      if(type === 'one') element.push(document.querySelector(selector))
-      element.forEach((el) =>  {
-        el.addEventListener(event, callback, options)
-         registerItem(el)
-      } )
-    }  
+    const [custom, event, type, selector] = target.split(":")   
+    let elements = []
+    if(element && element instanceof HTMLElement ) elements.push(element)
+    else if(type === 'all')  elements = document.querySelectorAll(selector) 
+    else if(type === 'one') elements.push(document.querySelector(selector)) 
+    elements.forEach((el) => {
+      if(el) el.addEventListener(event, callback, options)
+      if(!custom) return
+      else if(!custom[0] === '_' && !this.collections[custom]) this.collections[custom] = el
+      else if(!custom[0] === '_') return
+      else if(this.collections[custom]) this.collections[custom].push(el) 
+      else this.collections[custom] = [el] 
+    })
     return this;
   }  
+  trigerEvents(trigers) {
+    trigers.forEach(triger=> {
+      this.trigerEvent(triger[0], triger[1])
+    })
+    return this;
+  }
   trigerEvent(triger, detail) {
     const [elname, eventname] = triger.split(":")
     const [elitem, elind] = elname.split('_') 
-    const event = new CustomEvent(eventname, {detail: detail})
-    const cols = this.collections
-    if(cols[elitem+'_'] && cols[elitem+'_'][Number(elind)]) cols[elitem+'_'][Number(elind)].dispatchEvent(event)
-    else if(cols[elname]) cols[elname].dispatchEvent(event)
+    const event = new CustomEvent(eventname, {detail: detail})  
+    if(!elname) return this;
+    if(this.collections[elname]) this.collections[elname].dispatchEvent(event)
+    else if(!this.collections['_'+elitem]) return this;
+    else if(!elind)  this.collections['_'+elitem].forEach(el=>el.dispatchEvent(event)) 
+    else if(this.collections['_'+elitem][Number(elind)]) this.collections['_'+elitem][Number(elind)].dispatchEvent(event)
+    return this;
   }
 } 
