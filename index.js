@@ -1,16 +1,14 @@
 const LN = new Listener()
 
 LN.listens([ 
-    {
-        element: document.querySelector('.target'),
-        target: 'test:update',
-        callback: (e)=> {
-            console.log(e);
+    { 
+        target: 'test:update:one:.update',
+        callback: (e)=> { 
             e.target.innerText = e.detail.message
             e.target.style.color = 'red'
         }
     }, { 
-        target: 'test_:add:all:.target',
+        target: '_test:add:all:.target',
         callback: (e)=> { 
              const div = document.createElement('div')
              div.style.color = 'blue'
@@ -29,8 +27,8 @@ LN.listens([
         element: document.getElementById('add'),
         target: ':click',
         callback: (e)=> { 
-            LN.trigerEvent('test_1:add', {
-                message: 'success, this is added'
+            LN.trigerEvent('test_:add', {
+                message: 'success, this is added1'
             }) 
         } 
     }  , {
@@ -45,9 +43,11 @@ LN.listens([
         element: document.getElementById('add3'),
         target: ':click',
         callback: (e)=> { 
-            LN.trigerEvent('test_2:add', {
-                message: 'success, this is added'
-            }) 
+            LN.trigerEvents([
+                ['test_0:add', { message: 'success, this is added' }],
+                ['test_1:add', { message: 'success, this is added' }],
+                ['test_2:add', { message: 'success, this is added' }]
+            ]) 
         } 
     }  
 ])
