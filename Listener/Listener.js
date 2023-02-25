@@ -12,10 +12,10 @@ class Listener {
     else if(type === 'one') elements.push(document.querySelector(selector)) 
     elements.forEach((el) => {
       if(el) el.addEventListener(event, callback, options)
-      if(!custom) return
-      else if(!custom[0] === '_' && !this.collections[custom]) this.collections[custom] = el
-      else if(!custom[0] === '_') return
-      else if(this.collections[custom]) this.collections[custom].push(el) 
+      if(!custom) return 
+      if(custom[0] !== '_' && !this.collections[custom])  this.collections[custom] = el 
+      if(custom[0] !== '_') return
+      if(this.collections[custom]) this.collections[custom].push(el) 
       else this.collections[custom] = [el] 
     })
     return this;
