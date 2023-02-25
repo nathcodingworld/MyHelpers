@@ -1,8 +1,9 @@
 const LN = new Listener()
 
 LN.listens([ 
-    { 
-        target: 'test:update:one:.update',
+    {
+        element: document.querySelector('.target'),
+        target: 'test:update',
         callback: (e)=> { 
             e.target.innerText = e.detail.message
             e.target.style.color = 'red'
