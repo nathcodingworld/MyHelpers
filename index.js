@@ -9,7 +9,7 @@ LN.listens([
             e.target.style.color = 'red'
         }
     }, { 
-        instruction: 'atest:add:all:.target',
+        instruction: '_test:add:all:.target',
         callback: (e)=> { 
              const div = document.createElement('div')
              div.style.color = 'blue'
@@ -28,7 +28,7 @@ LN.listens([
         element: document.getElementById('add'),
         instruction: ':click',
         callback: (e)=> { 
-            LN.trigerEvent('atest:add', {
+            LN.trigerEvent('_test:add', {
                 message: 'success, this is added1'
             },1) 
         } 
@@ -36,7 +36,7 @@ LN.listens([
         element: document.getElementById('add2'),
         instruction: ':click',
         callback: (e)=> { 
-            LN.trigerEvent('atest:add', {
+            LN.trigerEvent('_test:add', {
                 message: 'success, this is added'
             }, 0) 
         } 
@@ -45,12 +45,30 @@ LN.listens([
         instruction: ':click',
         callback: (e)=> { 
             LN.trigerEvents([
-                ['atest:add', { message: 'success, this is added' }, 0],
-                ['atest:add', { message: 'success, this is added' }, 1],
-                ['atest:add', { message: 'success, this is added' }, 2]
+                ['_test:add', { message: 'success, this is added' }, 0],
+                ['_test:add', { message: 'success, this is added' }, 1],
+                ['_test:add', { message: 'success, this is added' }, 2]
             ]) 
         } 
-    }  
+    }  , {
+        element: document.getElementById('del'),
+        instruction: ':click',
+        callback: (e)=> { 
+            LN.ignore('_test:add')
+        } 
+    }  , {
+        element: document.getElementById('del2'),
+        instruction: ':click',
+        callback: (e)=> { 
+            LN.ignore('_test:add', 1)
+        } 
+    } , {
+        element: document.getElementById('del3'),
+        instruction: ':click',
+        callback: (e)=> { 
+            LN.ignore('_test:add', 2)
+        } 
+    } 
 ])
 
 
