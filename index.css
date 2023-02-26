@@ -1,0 +1,35 @@
+ .card {
+    height: 200px;
+    width: 400px; 
+    margin-top: 60px;
+    margin-left: 60px;
+    border: 1px solid red; 
+    animation: visib 1s ease-in-out;
+ }
+ html, body {
+    height: 200vh;
+    width: 200vw;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+ }
+ .hidden {
+    animation: hid 1s ease-in-out; 
+ }
+ @keyframes visib {
+    0% {
+        opacity: 0;
+    }
+     100% {
+        opacity: 1;
+     }
+ }
+
+ @keyframes hid {
+    0% {
+        opacity: 1;
+    }
+     100% {
+        opacity: 0;
+     }
+ }
