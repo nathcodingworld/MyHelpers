@@ -49,4 +49,14 @@ class Listener {
       delete this.collections[key][elind]
     }
   }
+  changeEvent(keyevent, callback, options = {}) {
+    const [ key, event ] = keyevent.split(':')
+    const eventkey = [key, event].join('')
+    this.collections[key].forEach(el=> {
+      el.removeEventListener(event, this.callbacks[eventkey])
+      el.addEventListener(event, callback, options)
+    })
+    this.callbacks[eventkey] = callback
+    return this
+  }
 } 
