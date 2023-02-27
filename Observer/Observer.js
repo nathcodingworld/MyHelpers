@@ -26,7 +26,7 @@ class Observer {
     if(event === 'intersection') observer = new IntersectionObserver(cb, opts)
     if(event === 'mutation') observer = new MutationObserver(cb)
     if(event === 'resize') observer = new ResizeObserver(cb)
-    elements.forEach(el => { 
+    if(observer) elements.forEach(el => { 
       if(event === 'intersection') observer.observe(el)
       if(event === 'mutation')  observer.observe(el, options)
       if(event === 'resize')  observer.observe(el)
