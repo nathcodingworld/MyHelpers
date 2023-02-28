@@ -6,6 +6,30 @@
     border: 1px solid red; 
     animation: visib 1s ease-in-out;
  }
+ .paper {
+   height: 200px;
+   width: 400px; 
+   margin-top: 60px;
+   display: flex;
+   margin-left: 60px;
+   background: green; 
+   animation: visib 1s ease-in-out;
+}
+.text {
+   height: 100%;
+   width: max-content;
+}
+.area {
+   height: 100%;
+   background: red;
+   width: 100%;
+}
+.table {
+   display: flex;
+   flex-direction: row;
+   column-gap: 50px;
+   height: 500px; 
+}
  html, body {
     height: 200vh;
     width: 200vw;
