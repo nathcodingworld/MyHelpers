@@ -8,11 +8,11 @@ class Observer {
   OBSCollection = {}
   OBSElements = {}
   _createObserver(type, callback, elements, options={}, parent=null) {
-    const cb =  (entries) => entries.forEach((entry, i)=>callback(entry, i)) 
+    const cb =  (entries) => entries.forEach((entry)=>callback(entry)) 
     let root = document.querySelector(parent) 
     let opts = options
     let observer = null
-    if(!opts['root'] && parent && root) opts['root'] = root 
+    if(!opts['root'] && parent && root) opts['root'] = root  
     if(type === 'intersection') observer =  new IntersectionObserver(cb, opts)
     if(type === 'mutation') observer =  new MutationObserver(cb)
     if(type === 'resize') observer =  new ResizeObserver(cb) 
