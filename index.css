@@ -4,7 +4,11 @@
     margin-top: 60px;
     margin-left: 60px;
     border: 1px solid red; 
-    animation: visib 1s ease-in-out;
+    background-color: blue;
+    animation: visib 1s ease-in-out, movex 1s ease-in-out;
+ } 
+ .movenx {
+   animation: movenx 1s ease-in-out;
  }
  .paper {
    height: 200px;
@@ -57,3 +61,21 @@
         opacity: 0;
      }
  }
+
+ @keyframes movex {
+   0% {
+       background-color: red;
+   }
+    100% {
+      background-color: blue;
+    }
+}
+
+@keyframes movenx {
+   0% {
+      background-color: blue;
+   }
+    100% {
+     background-color: red;
+    }
+}

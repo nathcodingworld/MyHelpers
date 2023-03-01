@@ -11,27 +11,24 @@ input.forEach((el, i)=> {
 function fade (entry) {
     if(entry.isIntersecting) {
         entry.target.classList.remove('hidden')
-    } else entry.target.classList.add('hidden') 
+    } else entry.target.classList.add('hidden')  
 }
-
-console.time('observe')
- 
 OB.observeAll([
     {
-        instructions: ':intersection:all:.card',
+        instructions: '_card:intersection:all:.card',
         callback: fade
     },{
-        instructions: ':intersection:all:.paper',
+        instructions: '_paper:intersection:all:.paper',
         callback: fade
     },{
-        instructions: ':resize:all:.area',
+        instructions: '_area:resize:all:.area',
         callback: entry => {
             if(entry.contentRect.width<300) {
                 entry.target.style.background = 'blue'
-            }
+            } else entry.target.style.background = 'red'
         }
     },{
-        instructions: ':mutation:all:.paper',
+        instructions: '_paper:mutation:all:.paper',
         callback: entry => {
             console.log(entry);
         },
@@ -41,8 +38,31 @@ OB.observeAll([
         }
     }
 ])
- 
+console.time('observe')
+
+setTimeout(() => { 
+// OB.reObserve(  '_card:intersection', el=>{
+//     el.classList.remove('hidden') 
+// },  entry=>{
+//     if(entry.isIntersecting) {
+//         entry.target.classList.remove('movenx')
+//     } else entry.target.classList.add('movenx')   
+// })
+OB.disregards([
+     {
+        instructions: '_card:intersection:del',
+        reset: el=> el.classList.remove('hidden')
+     },{
+        instructions: '_paper:intersection:del',
+        reset: el=> el.classList.remove('hidden')
+     },{
+        instructions: '_area:resize:del' 
+     },{
+        instructions: '_paper:mutation:del' 
+     } 
+])  
+}, 3000);
+    
 
 
- 
- console.timeEnd('observe')
+console.timeEnd('observe')
