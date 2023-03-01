@@ -43,35 +43,31 @@ class Observer {
   } 
   disregards(observe) {
     for (let i = 0; i < observe.length; ++i ) { 
-      this.disregard(observe[i][0], observe[i][1] || {ind:0, element:null})
+      const {instructions, index , element , reset } = observe[i]
+      this.disregard({instructions, index , element , reset })
     }  
   }
-  disregard(instructions, opts = {ind:0, element:null}) {
-    const {ind, element} = opts
-    const [key, event, type, target] = instructions.split(':')
-    const selected = document.querySelectorAll(target)
+  disregard({instructions, index=undefined, element=null, reset= undefined}) { 
+    const [key, event, type] = instructions.split(':') 
     const eventkey = [key, event].join('')
-    if(this.OBSCollection[eventkey]) return this
-    if(type === 'del') this.OBSCollection[eventkey].disconnect()
-    else if(event === 'mutation' || !this.OBSElements[eventkey]) return this
-    else if(element) this.OBSCollection[eventkey].unobserve(element)
-    else if(type === 'all') selected.forEach(el =>  {if(el) this.OBSCollection[eventkey].unobserve(el)}) 
-    else this.OBSCollection[eventkey].unobserve(this.OBSElements[eventkey][ind])
+    const elements = this.OBSElements[eventkey]
+    if(!this.OBSCollection[eventkey]) return this
+    if(type === 'del')  this.OBSCollection[eventkey].disconnect()  
+    if(reset && elements && type === 'del') for (let i = 0; i < elements.length; i++)  reset(elements[i]) 
+    else if(event === 'mutation' || !elements) return this
+    else if(element) this.OBSCollection[eventkey].unobserve(element) 
+    else if(typeof index === 'number') this.OBSCollection[eventkey].unobserve(elements[index])
   }
-  reObserve(target, callback, options={}) { 
-    const [key, event, parent] = target.split(':')
+  reObserve(instructions, reset, callback, options={}) { 
+    const [key, event, parent] = instructions.split(':')
     const keyevent = [key,event].join('')
     const elements = this.OBSElements[keyevent]
     const observer = this.OBSCollection[keyevent] 
-    if(!elements && !observer) return this
+    if(!elements && !observer) return this 
+    for (let i = 0; i < elements.length; i++) reset(elements[i])
+    observer.disconnect()  
     const newObserver = this._createObserver(event, callback, elements, options, parent)
-    if(newObserver) observer.disconnect() 
+    if(newObserver) this.OBSCollection[keyevent] = newObserver 
     return this 
-  }
-  getReport(type, ind) {
-    const observer = this.OBSCollection[type]
-    let records = observer.takeRecords()
-    if(records?.[ind]) return records[ind]
-    return null
-  }
+  } 
 } 
