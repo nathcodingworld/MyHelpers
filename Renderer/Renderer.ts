@@ -1,3 +1,9 @@
+/**
+ * Renderer v0.1.0
+ * Helpers Module
+ * by Nathaniel Morales
+ */
+
 type mediaType =  {
   xxl: number;
   xl: number;
