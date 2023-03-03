@@ -4,85 +4,41 @@
  * by Nathaniel Morales
  */
 class Renderer {
-    media = { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 }
-    mediaCollection= []
-    constructor({ media, targets}) {
-      if(media)this.media = media;
-      if(targets)this.mediaCollection = targets;
+    media = { xxl: 1400, xl: 1200, lg: 992, md: 768, sm: 576 } 
+    elementCollection = {}
+    fnCollection = {}
+    stylesCollection = {}
+    setMediaQueries({ xxl, xl, lg, md, sm }) {
+      this.media = { xxl, xl, lg, md, sm }
+    }
+    registerElements(instruction) {
+      const [key, selector] = instruction.split(":"); 
+      const elements = document.querySelectorAll(selector) 
+      if(key && elements.length !== 0) this.elementCollection[key] = elements
     }
     mediaQueries(queries) {
       queries.forEach((query) => this.mediaQuery(query));
     }
-    mediaQuery({ query, run }) {
-      const [filter, mq] = query.split(":");
-      const windowWidth = window.innerWidth;
-      const [min, max] = mq.split("-");   
-      switch (filter) {
-        case "min":
-          if ( windowWidth >= this.media[mq]) run();
-          break;
-        case "max":
-          if ( windowWidth < this.media[mq]) run();
-          break;
-        case "between":
-          if (windowWidth >= this.media[min] && windowWidth < this.media[max]) run();
-          break;
-        case "around":
-          if ( windowWidth < this.media[min] || windowWidth >= this.media[max]) run();
-          break;
-        default:
-          console.log("not valid query", query);
-          break;
-      }
+    mediaQuery({ instruction, run }) {
+      const [filter, mq, min, max] = instruction.split(":");
+      const windowWidth = window.innerWidth;  
+      if(mq && filter === 'min' && windowWidth >= this.media[mq]) run()
+      else if(mq && filter === 'max' && windowWidth < this.media[mq]) run()
+      else if(min && max && filter === 'between' && windowWidth >= this.media[min] && windowWidth < this.media[max]) run()
+      else if(min && max && filter === 'around' && windowWidth < this.media[min] || windowWidth >= this.media[max]) run() 
       return this;
-    }
-    tableSpliter({ tableid, tdFrom, tdTo }) {
-      const table = document.getElementById(tableid);
-      const targetHeadTr = table.querySelector("thead > tr:not(.splitedtable thead tr)");
-      const targetBodyTr = table.querySelectorAll("tbody > tr:not(.splitedtable tbody tr)");
-      const splitedTh = cutter(targetHeadTr);
-      targetBodyTr?.forEach((tr) => {
-        const splitedTd = cutter(tr);
-        const splitedTr = document.createElement("tr");
-        splitedTr.innerHTML = `
-                  <td colspan=${tdTo - tdFrom + 1}>
-                    <table class="table splitedtable">
-                      <thead>
-                          <tr>
-                          ${splitedTh.innerHTML}
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                          ${splitedTd.innerHTML}
-                          </tr>
-                      </tbody>
-                    </table>
-                  </td>
-               `;
-        tr.insertAdjacentElement("afterend", splitedTr);
-      });
-      function cutter(tr) {
-        const trow = document.createElement("tr");
-        if (tr.childElementCount >= tdTo)
-          for (let i = tdFrom - 1; i < tdTo; i++) {
-            trow.append(tr.children[tdFrom - 1]);
-          }
-        return trow;
-      }
-    }
-    displayToggler(target) {
-      const [selector, display] = target.split(":");
-      const element = document.querySelector(selector);
-      if (element && display == "toggle") {
+    } 
+    toggleDisplay(display, element) { 
+      if(!element) return this
+      if (display === "toggle") {
         if (element.style.display != "none") element.style.display = "none";
         else element.style.display = "block";
-      } else if (element) element.style.display = display;
+      } else element.style.display = display;
     }
-    classToggler(target) {
-      const [type, current, change, selector] = target.split(":");
-      const element = document.querySelector(selector);
-      if (element && type == "toggle") {
+    toggleClass(instruction, element) {
+      const [key, current, change] = instruction.split(":");  
+      if(!element) return this
+      if (key === "toggle") {
         if (element.classList.contains(current)) {
           element.classList.remove(current);
           element.classList.add(change);
@@ -90,70 +46,42 @@ class Renderer {
           element.classList.remove(change);
           element.classList.add(current);
         }
-      } else if (element) {
+      } else {
         element.classList.remove(current);
         element.classList.add(change);
-      }
+      }  
+      return this
     }
-    getElement(target, parent = null) {
-      let targetDocument = document;
-      if (parent) targetDocument = parent;
-      const [type, selector] = target.split(":");
-      let element
-      switch (type) {
-        case "ByClass":
-          element = targetDocument.querySelector("." + selector);
-          return element;
-        case "ById":
-          element = targetDocument.getElementById(selector);
-          return element;
-        case "sByClass":
-          element = targetDocument.querySelectorAll("." + selector);
-          return element;
-        case "BySelector":
-          element = targetDocument.querySelector(selector);
-          return element;
-        case "sBySelector":
-          element = targetDocument.querySelectorAll(selector);
-          return element;
-        default:
-          return null;
-      }
+    getElement(instruction, parent = null) {
+      const [key, type, selector] = instruction.split(":"); 
+      const targetDocument = parent || document 
+      const elements = targetDocument.querySelectorAll(selector)
+      const collections = this.elementCollection[key]
+      let items = []
+      if(!elements || elements.length === 0) return items
+      else if(type === 'all')  items = elements
+      else if(type === 'first')  items.push(elements.item(0))
+      else if(type === 'last')  items.push(elements.item(elements.length-1))
+      if(key && type[0] !== '_') this.elementCollection[key] = items
+      if(!collections || collections.length === 0) return items
+      else if(type === '_all')  items = collections
+      else if(type === '_first') items.push(collections[0])
+      else if(type === '_last') items.push(collections[collections.length-1])
+      return items
     }
-    setElement({ target, set }) {
-      const [type, selector] = target.split(":");
-      let element
-      switch (type) {
-        case "ByClass":
-          element = document.querySelector("." + selector);
-          if (element) set(element);
-          break;
-        case "ById":
-          element = document.getElementById(selector);
-          if (element) set(element);
-          break;
-        case "sByClass":
-          element = document.querySelectorAll("." + selector);
-          if (element.length > 0)
-            element.forEach((el) => {
-              if (el) set(el);
-            });
-          break;
-        case "BySelector":
-          element = document.querySelector(selector);
-          if (element) set(element);
-          break;
-        case "sBySelector":
-          element = document.querySelectorAll(selector);
-          if (element.length > 0)
-            element.forEach((el) => {
-              if (el) set(el);
-            });
-          break;
-        default:
-          return null;
-      }
+    setElement({ instruction, set, element=undefined }) {
+      const key = instruction.split(":")[0]
+      let elements = this.getElement(instruction) 
+      for (let i = 0; i < elements.length; i++)  if(elements[i]) set(elements[i]) 
+      if(!key) return this  
+      if(key[0] === '_') this.fnCollection[key] = set
       return this;
+    } 
+    setStyle(instruction, styles, parent=undefined) {
+      const elements = this.getElement(instruction, parent)
+      for (const element of elements) for (const key in styles) if(element) element.style[key] = styles[key]
+      if(!key) return this  
+      if(key[0] === '_') this.stylesCollection[key] = styles
     } 
   }
   
