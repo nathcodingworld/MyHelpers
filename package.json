@@ -4,6 +4,7 @@
   "description": "Creating my Own Helpers",
   "main": "index.js",
   "scripts": {
+    "add": "",
     "compileRenderer": "concurrently \"sass Renderer\" \"tsc Renderer\"",
     "activateRenderer": "concurrently \"sass --watch Renderer\" \"tsc -w Renderer/Renderer.ts\""
   },
