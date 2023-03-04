@@ -1,5 +1,11 @@
 body {
   background: gray;
 }
-
-/*# sourceMappingURL=Renderer.css.map */
+.red {
+  color: red;
+  border: 1px solid red;
+}
+.blue {
+  color: blue;
+  border: 1px solid blue;
+} 
