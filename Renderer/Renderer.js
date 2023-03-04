@@ -28,44 +28,47 @@ class Renderer {
       else if(min && max && filter === 'around' && windowWidth < this.media[min] || windowWidth >= this.media[max]) run() 
       return this;
     } 
-    toggleDisplay(display, element) { 
-      if(!element) return this
+    toggleDisplay(instruction, el=undefined) { 
+      const [display, key, type, selector] = instruction.split(":");  
+      const elements = this.getElement([key,type,selector].join(':'))  
+      const setdisplay = element => {if(!element) return this
       if (display === "toggle") {
         if (element.style.display != "none") element.style.display = "none";
         else element.style.display = "block";
-      } else element.style.display = display;
+      } else element.style.display = display;}
+      if(el) setdisplay(el)
+      else for (const element of elements)  setdisplay(element) 
     }
-    toggleClass(instruction, element) {
-      const [key, current, change] = instruction.split(":");  
-      if(!element) return this
-      if (key === "toggle") {
-        if (element.classList.contains(current)) {
-          element.classList.remove(current);
-          element.classList.add(change);
-        } else {
-          element.classList.remove(change);
-          element.classList.add(current);
-        }
-      } else {
-        element.classList.remove(current);
-        element.classList.add(change);
-      }  
+    toggleClass(instruction, el=undefined) {
+      const [action, current, change, key, type, selector] = instruction.split(":");  
+      const elements = this.getElement([key,type,selector].join(':'))  
+      const setclass = element => {if(!element) return this
+        if (action === "toggle") {
+          if (element.classList.contains(current)) {
+            element.classList.remove(current);
+            element.classList.add(change);
+          } else { element.classList.remove(change);
+            element.classList.add(current); }
+        } else { element.classList.remove(current);
+          element.classList.add(change); }}
+      if(el) setclass(el)
+      else for (const element of elements)  setclass(element) 
       return this
     }
     getElement(instruction, parent = null) {
       const [key, type, selector] = instruction.split(":"); 
       const targetDocument = parent || document 
-      const elements = targetDocument.querySelectorAll(selector)
+      const elements = targetDocument.querySelectorAll(selector || null)
       const collections = this.elementCollection[key]
       let items = []
-      if(!elements || elements.length === 0) return items
+      if((!elements || elements.length === 0 && !key)) return items
       else if(type === 'all')  items = elements
       else if(type === 'first')  items.push(elements.item(0))
       else if(type === 'last')  items.push(elements.item(elements.length-1))
       if(key && type[0] !== '_') this.elementCollection[key] = items
       if(!collections || collections.length === 0) return items
-      else if(type === '_all')  items = collections
-      else if(type === '_first') items.push(collections[0])
+      else if(type === '_all')  items = collections 
+      else if(type === '_first') items.push(collections[0]) 
       else if(type === '_last') items.push(collections[collections.length-1])
       return items
     }
@@ -78,6 +81,7 @@ class Renderer {
       return this;
     } 
     setStyle(instruction, styles, parent=undefined) {
+      const key = instruction.split(":")[0]
       const elements = this.getElement(instruction, parent)
       for (const element of elements) for (const key in styles) if(element) element.style[key] = styles[key]
       if(!key) return this  
