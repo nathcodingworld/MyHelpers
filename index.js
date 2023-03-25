@@ -1,7 +1,7 @@
-const RD = new Renderer()
+const ST = new Setter()
 
 
-RD.setElement({
+ST.setElement({
     instruction: 'test:all:.test',
     set: el=> {
         console.log(el);
@@ -9,7 +9,7 @@ RD.setElement({
     }
 })
 
-RD.setElement({
+ST.setElement({
     instruction: 'test:_first',
     set: el=> {
         console.log(el);
@@ -18,7 +18,7 @@ RD.setElement({
 })
  
 
-RD.setStyle( ':all:.test', {
+ST.setStyle( ':all:.test', {
     backgroundColor: 'red',
     color: 'blue' ,
     height: '100px',
@@ -27,5 +27,5 @@ RD.setStyle( ':all:.test', {
 
 const test = document.querySelector('button')
 test.addEventListener('click',()=> {
-   RD.toggleDisplay('toggle', document.querySelector('.test') )
+   ST.toggleDisplay('toggle', document.querySelector('.test') )
 }) 
