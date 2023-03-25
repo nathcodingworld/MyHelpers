@@ -6,6 +6,7 @@
  */
 
 class Keeper {
+    storage = {}
     addressesFiller (param, arg) {
         const selects = document.querySelector(param.element)  
         if(selects) {
@@ -22,5 +23,13 @@ class Keeper {
                 fillers(param.next,  e.target.value)
             } ) 
         }
+    }
+    makeSpace(name, data = []) {
+        this.storage[name] = data
+        return this
+    }
+    resetSpaces() {
+        const search = window.location.search
+        const param = search.replace('?', '').split('&')
     }
 }
