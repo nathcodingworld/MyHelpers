@@ -28,8 +28,25 @@ class Keeper {
         this.storage[name] = data
         return this
     }
-    resetSpaces() {
+    getLocations() {
         const search = window.location.search
-        const param = search.replace('?', '').split('&')
+        const keepdata = new URLSearchParams(search).get('keepdata') 
+        const data = decodeURIComponent(keepdata)
+         console.log(JSON.parse(data));
     }
+    setLocations(anchor, locs = undefined) { 
+        const sethref = (anchor) => { 
+            let datas = {}  
+            if(locs) locs.split(':').forEach(loc=> datas[loc] = this.storage[loc])
+            console.log(datas, datas.length);
+            const data = encodeURIComponent(JSON.stringify(locs ? datas : this.storage))
+            const params = new URLSearchParams(anchor.search); 
+            if(params.has('keepdata')) params.delete('keepdata')
+            params.append("keepdata", data); 
+            anchor.href = anchor.pathname + '?' + params.toString()
+        }
+        if(anchor instanceof HTMLAnchorElement) sethref(anchor)
+        else if(anchor instanceof String) document.querySelectorAll(anchor).forEach(el=> sethref(el) )
+        else window.location.search = 'keepdata='+data 
+    } 
 }
