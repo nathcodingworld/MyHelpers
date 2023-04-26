@@ -1,0 +1,74 @@
+$breakpoints: (
+    "xs": 0,
+    "sm": 480px,
+    "md": 720px,
+    "lg": 960px,
+    "xl": 1200px,
+);
+
+@mixin landscape-sm {
+    @media (min-width: map-get($breakpoints, "sm")) and (orientation: landscape) {
+        @content;
+    }
+}
+
+@mixin landscape-md {
+    @media (min-width: map-get($breakpoints, "md")) and (orientation: landscape) {
+        @content;
+    }
+}
+
+@mixin landscape-lg {
+    @media (min-width: map-get($breakpoints, "lg")) and (orientation: landscape) {
+        @content;
+    }
+}
+
+@mixin landscape-xl {
+    @media (min-width: map-get($breakpoints, "xl")) and (orientation: landscape) {
+        @content;
+    }
+}
+ 
+
+@mixin portrait-sm {
+    @media (min-width: map-get($breakpoints, "sm")) and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin portrait-md {
+    @media (min-width: map-get($breakpoints, "md")) and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin portrait-lg {
+    @media (min-width: map-get($breakpoints, "lg")) and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin portrait-xl {
+    @media (min-width: map-get($breakpoints, "xl")) and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin landscape($bp: 0) {
+    @media (max-width: $bp) and (orientation: landscape) {
+        @content;
+    }
+}
+
+@mixin portrait($bp: 0) {
+    @media (max-width: $bp) and (orientation: portrait) {
+        @content;
+    }
+}
+
+@mixin breakpoint($bp: 0) {
+    @media (max-width: $bp) {
+        @content;
+    }
+}
