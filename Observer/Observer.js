@@ -1,50 +1,73 @@
 /**
  * Observer v0.1.0
- * Helpers Module
- * by Nathaniel Morales
+ * My Helpers
+ * Nathaniel Morales
  */
 
 class Observer {
   OBSCollection = {}
   OBSElements = {}
+  _createObserver(type, callback, elements, options={}, parent=null) {
+    const cb =  (entries) => entries.forEach((entry)=>callback(entry)) 
+    let root = document.querySelector(parent) 
+    let opts = options
+    let observer = null
+    if(!opts['root'] && parent && root) opts['root'] = root  
+    if(type === 'intersection') observer =  new IntersectionObserver(cb, opts)
+    if(type === 'mutation') observer =  new MutationObserver(cb)
+    if(type === 'resize') observer =  new ResizeObserver(cb) 
+    if(observer) for (let i = 0; i < elements.length; ++i ) {
+      if(type === 'mutation')  observer.observe(elements[i], options)  
+      else observer.observe(elements[i])
+    } 
+    return observer
+  } 
   observeAll( parameters ) {
     parameters.forEach(param=> {
       this.observe(param)
     })
   }
   observe({ instructions, callback, element=null, options = {}}) { 
-    const [key, event, type, target, parent ] = instructions.split(':')
-    const root = document.querySelector(parent)
-    const cb =  (entries) => entries.forEach((entry, i)=>callback(entry, i)) 
-    let elements = []
-    let opts = options
+    const [key, event, type, target, parent ] = instructions.split(':') 
+    let elements = [] 
     let observer = null
-    if(!opts['root'] && root) opts['root'] = root 
+    if(event !== 'intersection' && event !== 'mutation' && event !== 'resize') return this 
     if(element) elements.push(element)
     else if(type === 'one') elements.push(document.querySelector(target))
     else if(type === 'all') elements = document.querySelectorAll(target)  
-    if(event === 'intersection') observer = new IntersectionObserver(cb, opts)
-    if(event === 'mutation') observer = new MutationObserver(cb)
-    if(event === 'resize') observer = new ResizeObserver(cb)
-    if(observer) elements.forEach(el => { 
-      if(event === 'intersection') observer.observe(el)
-      if(event === 'mutation')  observer.observe(el, options)
-      if(event === 'resize')  observer.observe(el)
-    })
-    if(key) this.OBSCollection[[key,event].join('')] = observer 
+    observer = this._createObserver(event, callback, elements, options, parent)
+    if(!key && !observer) return this
+    this.OBSCollection[[key,event].join('')] = observer 
     if(key[0] === '_') this.OBSElements[[key,event].join('')] = elements
     return this;
   } 
-  disregard(instructions, opts = {ind:0, element:null}) {
-    const {ind, element} = opts
-    const [key, event, type, target] = instructions.split(':')
-    const selected = document.querySelectorAll(target)
-    const eventkey = [key, event].join('')
-    if(this.OBSCollection[eventkey]) return this
-    if(type === 'del') this.OBSCollection[eventkey].disconnect()
-    else if(event === 'mutation' || !this.OBSElements[eventkey]) return this
-    else if(element) this.OBSCollection[eventkey].unobserve(element)
-    else if(type === 'all') selected.forEach(el =>  {if(el) this.OBSCollection[eventkey].unobserve(el)}) 
-    else this.OBSCollection[eventkey].unobserve(this.OBSElements[eventkey][ind])
+  disregards(observe) {
+    for (let i = 0; i < observe.length; ++i ) { 
+      const {instructions, index , element , reset } = observe[i]
+      this.disregard({instructions, index , element , reset })
+    }  
   }
+  disregard({instructions, index=undefined, element=null, reset= undefined}) { 
+    const [key, event, type] = instructions.split(':') 
+    const eventkey = [key, event].join('')
+    const elements = this.OBSElements[eventkey]
+    if(!this.OBSCollection[eventkey]) return this
+    if(type === 'del')  this.OBSCollection[eventkey].disconnect()  
+    if(reset && elements && type === 'del') for (let i = 0; i < elements.length; i++)  reset(elements[i]) 
+    else if(event === 'mutation' || !elements) return this
+    else if(element) this.OBSCollection[eventkey].unobserve(element) 
+    else if(typeof index === 'number') this.OBSCollection[eventkey].unobserve(elements[index])
+  }
+  reObserve(instructions, reset, callback, options={}) { 
+    const [key, event, parent] = instructions.split(':')
+    const keyevent = [key,event].join('')
+    const elements = this.OBSElements[keyevent]
+    const observer = this.OBSCollection[keyevent] 
+    if(!elements && !observer) return this 
+    for (let i = 0; i < elements.length; i++) reset(elements[i])
+    observer.disconnect()  
+    const newObserver = this._createObserver(event, callback, elements, options, parent)
+    if(newObserver) this.OBSCollection[keyevent] = newObserver 
+    return this 
+  } 
 } 
