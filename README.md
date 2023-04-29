@@ -30,7 +30,9 @@ To use the Setter, Copy the Setter.js file in Setter folder
 // or 
     setter.mediaQuery({
         instruction: 'around::lg:xxl',
-        run: () => console.log('will run if width is greater than 992px and less than 1400px in the first load')
+        run: () => {
+            console.log('will run if width is less than 992px and greater than 1400px in the first load')
+        }
     })
 ```
 #### mediaQueries
@@ -38,7 +40,9 @@ To use the Setter, Copy the Setter.js file in Setter folder
     setter.mediaQueries([
         {
             instruction: 'around::lg:xxl',
-            run: () => console.log('will run if width is greater than 992px and less than 1400px in the first load')
+            run: () => {
+                console.log('will run if width is less than 992px and greater than 1400px in the first load')
+            }
         },{
             instruction: 'min:lg',
             run: () => console.log('will run if width is greater than 992px in the first load')
