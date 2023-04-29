@@ -26,6 +26,7 @@ To use the Setter, Copy the Setter.js file in Setter folder
         instruction: 'min:lg',
         run: () => console.log('will run if width is greater than 992px in the first load')
     })
+
 // or 
     setter.mediaQuery({
         instruction: 'around::lg:xxl',
@@ -60,6 +61,7 @@ To use the Setter, Copy the Setter.js file in Setter folder
             el.classList.add('animate')
         }
     })
+
 //sample with key
     setter.setElement({
         instruction: 'cards:all:.product-cards',
@@ -67,6 +69,7 @@ To use the Setter, Copy the Setter.js file in Setter folder
             el.classList.add('animate')
         }
     })
+
 // then to set again the first .product-cards element in the cards key
     setter.setElement({
         instruction: 'cards:_first',
@@ -74,6 +77,7 @@ To use the Setter, Copy the Setter.js file in Setter folder
             el.classList.add('hidden')
         }
     })
+
 // to get all the elements in cards collection 
     const cards = setter.getElement('cards:_all')
 ```
@@ -104,6 +108,7 @@ To use the Listener, Copy the Listener.js file in Listener folder
         }
         options: { once: true }
     })
+
 //sample with element
     listener.listen({
         element: document.getElementById('card'),
@@ -113,6 +118,7 @@ To use the Listener, Copy the Listener.js file in Listener folder
         }
         options: { once: true }
     })
+
 //custom event sample
     listener.listen({ 
         instruction: 'custom:activate',
@@ -121,6 +127,7 @@ To use the Listener, Copy the Listener.js file in Listener folder
             console.log('this is the message from activate event: ' + e.detail.message)
         } 
     })
+
 //trigger the custom event
     listener.trigerEvent('custom:activate', {
         message: 'hello, from activate event'
@@ -134,6 +141,7 @@ To use the Listener, Copy the Listener.js file in Listener folder
 //      index: index in _card collection array (default 0),
 //      clear: (boolean) to remove saved _card collection after removing one event (default  false)
 // )
+
   listener.ignore('_card:click', 5) 
 // remove all is not yet added to this function
 ``` 
