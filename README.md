@@ -152,4 +152,4 @@ To use the Listener, Copy the Listener.js file in Listener folder
   listener.ignore('_card:click', 5) 
   listener.ignore('_custom:activate') 
 // remove all is not yet added to this function
-``` 
+```  
