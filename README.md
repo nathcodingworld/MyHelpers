@@ -142,7 +142,7 @@ To use the Listener, Copy the Listener.js file in Listener folder
 //trigger the custom event
     listener.trigerEvent('_custom:activate', {
         message: 'hello, from activate event'
-    }) 
+    }, 4 ) // instruction: string, detail: Object, index of saved elements: number
 ```
 #### remove event listener
 ```javascript 
