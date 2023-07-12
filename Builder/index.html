@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder Helper Module</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="./Builder/Builder.js" defer></script>
+    <script src="./Builder/builderExtension.js" defer></script>
+    <script src="./index.js" defer></script>
+</head>
+<body> 
+    <i class="fa-regular fa-eye"></i>
+    <user-card name="John Doe" avatar="https://randomuser.me/api/portraits/men/1.jpg">
+        <div slot="email">johndoe@gmail.com</div>
+        <div slot="phone">555-555-5555</div>
+    </user-card>
+    <user-card name="Jane Doe" avatar="https://randomuser.me/api/portraits/women/1.jpg">
+        <div slot="email">janedoe@gmail.com</div>
+        <div slot="phone">333-333-3333</div>
+      </user-card> 
+    <div style="width: 500px; margin: auto;">
+        <custom-accordion>
+          <custom-accordion-item head-title="Description">
+              <div slot="te">asdasdasd</div>
+          </custom-accordion-item>
+          <custom-accordion-item head-title="Reviews">
+              <div class="asd">
+                <p>adasd</p>
+                <p>adasd</p>
+                <p>adasd</p>
+              </div>
+          </custom-accordion-item>
+          <custom-accordion-item head-title="Specification">
+            <div class="asd">
+                <p>adasd</p>
+                <p>adasd</p>
+                <p>adasd</p>
+              </div>
+          </custom-accordion-item>
+          <custom-accordion-item head-title="Demonstration">
+            <div class="asd">
+                <p>adasd</p>
+                <p>adasd</p>
+                <p>adasd</p>
+              </div>
+          </custom-accordion-item>
+        </custom-accordion> 
+    </div>
+    <product-card display="grid">
+        <div slot="card-image"  >
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" height="200" class="aasas"> 
+        </div>
+        <div slot="card-detail">
+            <h5>title</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        </div>
+        <div slot="card-price"> 
+            <span>$200</span> 
+            <span>$299</span> 
+        </div>
+        <div slot="card-review">
+            <p>asdasdasd</p>
+        </div>
+        <div slot="card-actions">
+            <button>buy now</button>
+            <button>add cart</button>
+        </div>
+    </product-card>
+    <product-card display="grid">
+        <div slot="card-image"  >
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" height="200" class="aasas"> 
+        </div>
+        <div slot="card-detail">
+            <h5>title</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        </div>
+        <div slot="card-price"> 
+            <span>$200</span> 
+            <span>$299</span> 
+        </div>
+        <div slot="card-review">
+            <p>asdasdasd</p>
+        </div>
+        <div slot="card-actions">
+            <button>buy now</button>
+            <button>add cart</button>
+        </div>
+    </product-card>
+    <button id="rt">flex</button>
+    <button id="re">grid</button>
+</body>
+</html>
