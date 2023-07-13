@@ -4,14 +4,7 @@
   "description": "Creating my Own Helpers",
   "main": "index.js",
   "scripts": {
-    "compileListener": "concurrently \"sass Listener\" \"tsc Listener\"",
-    "activateListener": "concurrently \"sass --watch Listener\" \"tsc -w Listener/Listener.ts\"",
-    "compileObserver": "concurrently \"sass Observer\" \"tsc Observer\"",
-    "activateObserver": "concurrently \"sass --watch Observer\" \"tsc -w Observer/Observer.ts\"",
-    "compileRenderer": "concurrently \"sass Renderer\" \"tsc Renderer\"",
-    "activateRenderer": "concurrently \"sass --watch Renderer\" \"tsc -w Renderer/Renderer.ts\"",
-    "compileBuilder": "concurrently \"sass Builder\" \"tsc Builder\"",
-    "activateBuilder": "concurrently \"sass --watch Builder\" \"tsc -w Builder/Builder.ts\""
+    "test": "concurrently \"git log --oneline\" \"git log --oneline\"" 
   },
   "keywords": [],
   "author": "Nathaniel M.",
