@@ -4,7 +4,7 @@
   "description": "Creating my Own Helpers",
   "main": "index.js",
   "scripts": {
-    "test": "concurrently \"git log --oneline\" \"git log --oneline\"" 
+    "test": "concurrently \"git log --oneline\" \"git log --oneline\""
   },
   "keywords": [],
   "author": "Nathaniel M.",
@@ -22,6 +22,7 @@
     "sass": "^1.62.1"
   },
   "dependencies": {
+    "cypress": "^12.17.1",
     "glob-parent": "^5.1.2"
   }
 }

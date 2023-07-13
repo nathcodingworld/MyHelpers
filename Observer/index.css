@@ -1,0 +1,81 @@
+ .card {
+    height: 200px;
+    width: 400px; 
+    margin-top: 60px;
+    margin-left: 60px;
+    border: 1px solid red; 
+    background-color: blue;
+    animation: visib 1s ease-in-out, movex 1s ease-in-out;
+ } 
+ .movenx {
+   animation: movenx 1s ease-in-out;
+ }
+ .paper {
+   height: 200px;
+   width: 400px; 
+   margin-top: 60px;
+   display: flex;
+   margin-left: 60px;
+   background: green; 
+   animation: visib 1s ease-in-out;
+}
+.text {
+   height: 100%;
+   width: max-content;
+}
+.area {
+   height: 100%;
+   background: red;
+   width: 100%;
+}
+.table {
+   display: flex;
+   flex-direction: row;
+   column-gap: 50px;
+   height: 500px; 
+}
+ html, body {
+    height: 200vh;
+    width: 200vw;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+ }
+ .hidden {
+    animation: hid 1s ease-in-out; 
+ }
+ @keyframes visib {
+    0% {
+        opacity: 0;
+    }
+     100% {
+        opacity: 1;
+     }
+ }
+
+ @keyframes hid {
+    0% {
+        opacity: 1;
+    }
+     100% {
+        opacity: 0;
+     }
+ }
+
+ @keyframes movex {
+   0% {
+       background-color: red;
+   }
+    100% {
+      background-color: blue;
+    }
+}
+
+@keyframes movenx {
+   0% {
+      background-color: blue;
+   }
+    100% {
+     background-color: red;
+    }
+}
