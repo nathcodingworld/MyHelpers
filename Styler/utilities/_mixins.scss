@@ -12,3 +12,18 @@
     justify-content: $justify;
     align-items: $align; 
 }
+
+@mixin Center() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ 
+@mixin Container($w, $h: 0) {
+    max-width: $w;
+    width: 100%;
+    padding: 0 20px;
+    margin: $h auto ;
+}
+
