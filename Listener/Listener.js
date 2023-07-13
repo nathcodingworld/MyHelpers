@@ -11,13 +11,15 @@ class Listener {
     events.forEach((event) => this.listen(event));
     return this;
   } 
-  listen({ instruction, callback, element, options = {}}) {   
+  listen({ instruction, callback, element,parent = undefined, options = {}}) {   
     const [key, event, type, target] = instruction.split(":")   
     const eventkey = [key, event].join('') 
+    const parentDocument = parent || document
     let elements = []
     if(element && element instanceof HTMLElement ) elements.push(element)
-    else if(type === 'all')  elements = document.querySelectorAll(target) 
-    else if(type === 'one') elements.push(document.querySelector(target)) 
+    else if(type === 'all')  elements = parentDocument.querySelectorAll(target) 
+    else if(type === 'one') elements.push(parentDocument.querySelector(target)) 
+    else if(this.collections[key] && type === 'get') elements.push(...this.collections[key]) 
     elements.forEach((el) => {
       if(el) el.addEventListener(event, callback, options)  
     })

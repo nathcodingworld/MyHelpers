@@ -51,8 +51,8 @@ class Builder {
             let classContent = ''
             for (const styleProps in stylesObject){
                 if (Object.hasOwnProperty.call(stylesObject, styleProps)) {
-                    if(styleProps[0] === ":") { 
-                        const combinedStyle = parent+styleProps
+                    if(styleProps[0] === ":" || styleProps[0] === "&") { 
+                        const combinedStyle = parent + styleProps.replace('&', '')
                         styleTag.textContent += `${combinedStyle} {${addStyles(stylesObject[styleProps], combinedStyle)}}` 
                     }
                     else classContent += `${styleProps.replace(/([A-Z])/g, '-$1').toLowerCase()}:${stylesObject[styleProps]};` 

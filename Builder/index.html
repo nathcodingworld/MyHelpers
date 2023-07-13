@@ -21,10 +21,11 @@
         <div slot="email">janedoe@gmail.com</div>
         <div slot="phone">333-333-3333</div>
       </user-card> 
+    <button class="sidenavbtn">Open Modal</button>
     <div style="width: 500px; margin: auto;">
         <custom-accordion>
           <custom-accordion-item head-title="Description">
-              <div slot="te">asdasdasd</div>
+              <div class="asd">asdasdasd</div>
           </custom-accordion-item>
           <custom-accordion-item head-title="Reviews">
               <div class="asd">
@@ -49,7 +50,7 @@
           </custom-accordion-item>
         </custom-accordion> 
     </div>
-    <product-card display="grid">
+    <product-card display="flex">
         <div slot="card-image"  >
             <img src="https://randomuser.me/api/portraits/men/1.jpg" height="200" class="aasas"> 
         </div>
@@ -69,7 +70,7 @@
             <button>add cart</button>
         </div>
     </product-card>
-    <product-card display="grid">
+    <product-card display="flex">
         <div slot="card-image"  >
             <img src="https://randomuser.me/api/portraits/men/1.jpg" height="200" class="aasas"> 
         </div>
@@ -91,5 +92,10 @@
     </product-card>
     <button id="rt">flex</button>
     <button id="re">grid</button>
+
+    <sidenav-modal display="closed" key="sidenavbtn">
+        <p>hello</p>
+    </sidenav-modal>
 </body>
 </html>
+

@@ -74,7 +74,7 @@ class Setter {
     }
     setElement({ instruction, set, element=undefined }) {
       const key = instruction.split(":")[0]
-      let elements = this.getElement(instruction) 
+      let elements = this.getElement(instruction, element) 
       for (let i = 0; i < elements.length; i++)  if(elements[i]) set(elements[i]) 
       if(!key) return this  
       if(key[0] === '_') this.fnCollection[key] = set

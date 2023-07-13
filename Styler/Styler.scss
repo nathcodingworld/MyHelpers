@@ -1,10 +1,11 @@
-@import 'utilities/variables';
+@use 'utilities/variables' as variables; 
+@use 'utilities/expressions' as expresions;
+@use 'utilities/functions' as functions;
+@use 'utilities/breakpoints' as breakpoints;
+@use 'utilities/mixins' as mixins;
+@use 'utilities/components' as components;
+
 @import 'utilities/reset';
-@import 'utilities/expressions';
-@import 'utilities/functions';
-@import 'utilities/breakpoints';
-@import 'utilities/mixins';
-@import 'utilities/components';
 
 // Styler Helper v0.01.0
 // My Helpers

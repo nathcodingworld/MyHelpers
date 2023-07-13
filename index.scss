@@ -7,3 +7,16 @@
 @use 'Styler/utilities/components' as components;
 
 @import 'Styler/utilities/reset';
+
+nav {
+    @include mixins.Row(space-between);
+    @include mixins.Container(variables.$normalwide, variables.$shallow);
+    column-gap: 20px;
+    & a:hover {
+        color: variables.$primary;
+    }
+}
+.asd {
+    border: 1px solid lightgray;
+    padding: 10px 18px ;
+}

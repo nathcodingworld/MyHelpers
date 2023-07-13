@@ -71,6 +71,7 @@ BD.customComponent({
 BD
 .register( Accordion, [{ name: 'custom', }]) 
 .register( Card, [{name: 'product', actionFW: true}]) 
+.register( Modal, [{name: 'sidenav', Orient: 'Top', height: '100px', width: '250px'}])
 
  document.getElementById('rt').addEventListener('click',()=> {
     document.querySelectorAll('product-card').forEach(el=> {
