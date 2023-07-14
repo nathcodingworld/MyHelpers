@@ -6,7 +6,14 @@
  */
 
 class Keeper {
-    storage = {}
+    transfer = {}
+    database = {}
+    // storage = {}
+    constructor({name, main, follow, clear} = { name: 'keeperdata', main: false, follow: false, clear: false }) { 
+        if(main) window.onbeforeunload = () => localStorage.setItem(name, JSON.stringify(this.transfer)) 
+        if(follow) this.transfer = JSON.parse(localStorage.getItem(name) || '{}')  
+        if(clear) localStorage.removeItem(name)
+    }
     addressesFiller (param, arg) {
         const selects = document.querySelector(param.element)  
         if(selects) {
@@ -24,38 +31,40 @@ class Keeper {
             } ) 
         }
     }
-    makeSpace(name, data = []) {
-        this.storage[name] = data
-        return this
+    makeSpace(name, data) {
+        this.database[name] = data 
+        return [this.database[name], setData => setData(this.database[name])]
     }
-    getData() {
+    keep(data, name){
+        this.transfer[name] = data 
+        return [this.transfer[name], setData => setData(this.transfer[name])]
+    } 
+    load (name) {
+        const transfer = this.transfer[name]
+        return [transfer, setData => setData(transfer)] 
+    }
+    send(name, location, search = "") {
+        const params = new URLSearchParams(search); 
+        const addsearch = (searchname) => {
+            if(params.has(searchname)) params.delete(searchname)
+            const data = encodeURIComponent(JSON.stringify(this.transfer[searchname] || ''))
+            params.append(searchname, data)
+        }
+        if(name instanceof Array) {
+            for (let i = 0; i < name.length; i++) addsearch(name[i]) 
+        } else addsearch(name)
+
+        window.location.assign(location+'?'+params.toString())
+    }
+    recieve(name) {
         const search = window.location.search
-        const keepdata = new URLSearchParams(search).get('keepdata') 
-        const data = decodeURIComponent(keepdata)
-         console.log(JSON.parse(data));
+        const keepdata = JSON.parse(decodeURIComponent(new URLSearchParams(search).get(name)))
+        if(keepdata) this.transfer[name] = keepdata
+        return [this.transfer[name], setData => setData(this.transfer[name])]  
     }
-    setLocations(anchor, locs = undefined) { 
-        const sethref = (a) => { 
-            let datas = {}  
-            if(locs) locs.split(':').forEach(loc=> datas[loc] = this.storage[loc]) 
-            const data = encodeURIComponent(JSON.stringify(locs ? datas : this.storage))
-            const params = new URLSearchParams(a.search); 
-            if(params.has('keepdata')) params.delete('keepdata')
-            params.append("keepdata", data); 
-            a.href = a.pathname + '?' + params.toString()
-        }
-        if(anchor instanceof HTMLAnchorElement) sethref(anchor)
-        else if(anchor instanceof String) document.querySelectorAll(anchor).forEach(el=> sethref(el) )
-        else window.location.search = 'keepdata='+data 
-    } 
-    setPath(ints) {
-        const [key, name] = ints.split(':')
-        const obj = this.storage[key]
-        if(obj) for (const k in obj) {
-            if (Object.hasOwnProperty.call(obj, k)) {
-                const el = obj[k];
-                
-            }
-        }
-    } 
+    // store (name, elements = []) {
+    //     const storage = this.storage[name]
+    //     if(!storage) storage = elements
+    // }
+ 
 }
