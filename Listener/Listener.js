@@ -15,14 +15,18 @@ class Listener {
     const [key, event, type, target] = instruction.split(":")   
     const eventkey = [key, event].join('') 
     const parentDocument = parent || document
-    let elements = []
+    let elements = [] 
+    let finalcallback = callback
+    let finalevent = event
     if(element && element instanceof HTMLElement ) elements.push(element)
     else if(type === 'all')  elements = parentDocument.querySelectorAll(target) 
     else if(type === 'one') elements.push(parentDocument.querySelector(target)) 
-    else if(this.collections[key] && type === 'get') elements.push(...this.collections[key]) 
-    elements.forEach((el) => {
-      if(el) el.addEventListener(event, callback, options)  
-    })
+    else if(this.collections[key] && type === 'get') elements.push(...this.collections[key])
+    if(!callback && this.callbacks[eventkey]) {finalcallback = this.callbacks[eventkey];finalevent = type}
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      if(el) el.addEventListener(finalevent, finalcallback, options)  
+    } 
     if(!key) return this;
     if(this.collections[key]) this.collections[key].push(...elements)
     else this.collections[key] = elements
@@ -45,17 +49,15 @@ class Listener {
   }
   ignoreAll(details) {
     details.forEach(detail=> {
-      this.ignore(detail[0], detail[1] || 0, detail[2] || false)
+      this.ignore(detail[0], detail[1] || 0, detail[2] || false, detail[3] || false)
     })
   }
-  ignore(detail, elind = 0, clear = false) {
+  ignore(detail, elind = 0, clearcb = false, clearel = false) {
     const [key, event] = detail.split(':')
     const eventkey = [key, event].join('')
     this.collections[key][elind].removeEventListener(event, this.callbacks[eventkey])
-    if(clear) {
-      delete this.callbacks[eventkey]
-      delete this.collections[key][elind]
-    }
+    if(clearcb) delete this.callbacks[eventkey]
+    if(clearel) delete this.collections[key] 
   }
   changeEvent(keyevent, callback, options = {}) {
     const [ key, event ] = keyevent.split(':')
