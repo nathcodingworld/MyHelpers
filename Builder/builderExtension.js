@@ -1,9 +1,8 @@
 
-function Accordion(builder, {name, wrapperstyle={}, headstyle={}, panelstyle={}, noshadow = true}) {
+function Accordion(builder, {name, noshadow = false}) {
     builder.customElement({ 
         style: { 
-            display: 'block',
-            ...wrapperstyle
+            display: 'block', 
         }, 
         template: {
             name: name+'-accordion',
@@ -15,15 +14,17 @@ function Accordion(builder, {name, wrapperstyle={}, headstyle={}, panelstyle={},
     builder.customComponent({
         style: {
             accordion: { 
-                backgroundColor:'grey',
-                color:'#fff',
-                cursor:'pointer',
-                fontFamily:'Poppins',
-                fontStyle:'normal',
-                fontWeight:'500',
-                fontSize:'14px',
-                lineHeight:'21px',
-                padding:'18px',
+                fontFamily: 'Inter',
+                fontSize: '18px',
+                fontStyle: 'normal',
+                fontWeight: '600',
+                lineHeight: '28px',
+                backgroundColor:'#F6F6F6',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                cursor:'pointer',  
+                padding:'24px 32px',
                 width:'100%',
                 textAlign:'left',
                 border:'none',
@@ -31,29 +32,29 @@ function Accordion(builder, {name, wrapperstyle={}, headstyle={}, panelstyle={},
                 transition:'.4s',
                 margin: '0',
                 ':hover': {
-                    backgroundColor:'red',
+                    backgroundColor:'#9A2E25',
                     color:'#fff'
                 },
                 ':after' : {
                     float:'right',
-                    content:'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDE0IDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03IDdMMC45Mzc4MjIgMC4yNUwxMy4wNjIyIDAuMjUwMDAxTDcgN1oiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)',
+                    content:'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIjSURBVHgB7ZiLcdswDEBfu0A1AjaoRlAnaDaIOoG9gTWCNwg3aDqB2wncThBvkHSCljxJZ1DWh6To5JLLu8P5bIMkCJAASXjnjfOBPBSdSPf9ycqp+3wxKit7Kw9W/k3I0cqdlRuekY2VxxmjpsRN5JZIYkJc0nqjVL+5EP62cm/lL21YHUWn95nW04Vq43S+KN0sOK8NvbEZDDyF06m5XApbMrEbdNyQTjPoa8dKtOecB0rWI/jeTPak4Bsn5EPwjUyauO5AyE+Jn46iqMmz5pZoSAx1770Hrk8/1mNogxvOs7rl+mzVeFVIA8N5RiF5bi0F58q0D2lw7JTvJ/4XKwfiNo50/U7t1gOBS6pgfnMI/voUwozT62ysjQ6zF7WPI531jG39k5VfSnfJk0OdH4zXYH0sm11WFWEL1rCcxAU/lxrWjxuuuGCkRBgXNa4oxZplzIiRscY5dGqbLXt6k4RmdjMwMtY4R8PEJhmjH+BAOIbLE7SJaP+diJq8Jy1RG9KM04n6LqRBRWIBpzXMEEetxvsa2qif0WJmz4BO/MHozN5wPXasOJgcWXniXUDwd380JcvVIhUh04ldhzqXkSWZLk09DfmuijvyXWE9tow/Y4Re3DckXtxjnj6Ey+OVOyb9tPKH9gnkSel+oq2xJf5EnN637vMq1My/aE2Jy63ZnjtCcN4x+OloKG4irnRWJJLzAVM4h/JEG+4XfcB851XwH/vqE/97kFNbAAAAAElFTkSuQmCC)',
                     color:'#777',
-                    marginLeft:'5px',
+                    height: '40px',
                     color:'#000'
                 }
             },
             panel: {
-                backgroundColor:'#fff',
+                backgroundColor:'#F6F6F6',
                 maxHeight:'0',
                 marginBottom:'15px',
                 overflow:'hidden',
                 transition:'max-height .2s ease-out'
             },
             clicked:{
-                backgroundColor:'red',
-                color:'#fff',
+                backgroundColor:'#9A2E25',
+                color:'white',
                 ':after': {
-                    content:'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDE0IDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03IDBMMTMuMDYyMiA2Ljc1TDAuOTM3ODIyIDYuNzVMNyAwWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==)',
+                    content:'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJESURBVHgB7ViLccIwDBVdoBnBG7QjpBOUDUongA1gBDaADcoGdAPoBMkGoROo8sU5ZJOPZJxy7fHudDmCJD//pEgAd/xzTCABEDGjhxXjXp1IyslkcoJbgUjlJGuSArtxINmQTOG3QIPNSSrUoyB5AyXEW0zOn+mxIXlmr+0WHkl2JN8kpXufOb0nktz9bmB1Xmj7S0gFt2rhaszd2RuyzUhmeHkUFpAC5GgZOF5BJKxt4GsJ1yBYucJt87U+TbCacSvpHHFyBhKhhaR+4oEDA4lhSTH/B63xLMWZE4yzitpqtnoFjAw2ViU1mLJZqQIr1lljo7RZsPFyicG2mREK4lxAroGYJNZxsslMa4nBwSnvQIiAXAzJvehIudmoLkdArkD/9otIBtuc9Snyq/8qcBySM3gZ4wZJoh81TJ9izhRzUJJj/6lIiseVKvaRiyGpIcjT2yyWnJYk+qGtO+2hf0kWHQNWEnIdJLtWe8XGzYYcNs72Hf/bi3RARX52JPddNvT+w405nJOxrjMQlYE6FugH6osj8NBi0wRoS24G42MK55JAlhz4OYORgTEfJuhH9hWMBPTLCV3Fh+ec3H/148l5X+ygBfppr9DcWiG5gvk3EINgq5OQdBPn5K4rPzFhqYgJS9jQ8SJwXNhDjfLCfY6Rhbum9WHoYbOLYa9t6+OT5AvqFkjTzbI6j1DHOHvB+ESs3ju1Po4wBrC9jSFBhanaHUKi9gtki344wpajYFNnDpFI2cA0cN7KkuR00wbmHX8FP+9BMgJ4vnpyAAAAAElFTkSuQmCC)',
                     color:'#000'
                 }
             }
@@ -61,20 +62,14 @@ function Accordion(builder, {name, wrapperstyle={}, headstyle={}, panelstyle={},
         template: {
             noshadow: noshadow,
             name: name+'-accordion-item',
-            root: '<div><button class=accordion></button><div class=panel><slot></div></div>',  
+            root: '<div><button class="accordion"></button><div class="panel"><slot></div></div>',  
         },
         script: {
-            initial: (shadow, element) => { 
+            onMount: (root) => { 
                 let showInfo = false
-                shadow.querySelector('button').innerText = element.getAttribute('head-title'); 
-                const button = shadow.querySelector('button')
-                const panel = shadow.querySelector('.panel')
-                if(headstyle) for (let key in headstyle) {
-                    button.style[key] = headstyle[key]
-                }
-                if(panelstyle) for (let key in panelstyle) {
-                    panel.style[key] = panelstyle[key]
-                }
+                root.shadow.querySelector('button').innerText = root.getAttribute('head-title'); 
+                const button = root.shadow.querySelector('button')
+                const panel = root.shadow.querySelector('.panel') 
                 button.addEventListener('click', () => {
                     showInfo = !showInfo;
                     console.log(showInfo);

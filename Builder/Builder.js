@@ -3,8 +3,7 @@
  * My Helpers
  * Nathaniel Morales
  */
- 
-
+  
 class Builder {
     customElement({style, template, script}) {  
         customElements.define(template.name, class extends template.element {
@@ -41,7 +40,7 @@ class Builder {
                 this.shadow.appendChild(newElement.content.cloneNode(true)) 
                 if(script.initial)script.initial(this.shadow, this)
             } 
-            connectedCallback() { if(script.onMount) script.onMount(this.shadow, this) }
+            connectedCallback() { if(script.onMount) script.onMount(this) }
             disconnectedCallback() { if(script.onDismount) script.onDismount(this) }
             adoptedCallback() {if(script.onMove) script.onMove(this) }
             static get observedAttributes() { return template.attributes } 
