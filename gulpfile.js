@@ -4,7 +4,14 @@ const concat = require('gulp-concat')
 const sass = require('gulp-sass')(require('sass'));
 
 
-const helpersOrder = ['./Builder/Builder.js', './Keeper/Keeper.js', './Listener/Listener.js', './Observer/Observer.js', './Setter/Setter.js', './Formater/Formater.js', './Helpers.js']
+const helpersOrder = [
+    './Listener/Listener.js', 
+    './Observer/Observer.js', 
+    './Formater/Formater.js', 
+    './Keeper/Keeper.js', 
+    './Builder/Builder.js', 
+    './Setter/Setter.js', 
+    './Helpers.js']
  
 const bundleHP = () => {
     return src(helpersOrder).pipe(uglify()).pipe(concat('MyHelpers.js')).pipe(dest('./dist/js/'))
@@ -17,3 +24,6 @@ const buildStyles = () => {
 exports.bundleHP = bundleHP
 
 exports.buildStyles = buildStyles
+
+
+//gulp bundleHP
