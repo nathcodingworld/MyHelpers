@@ -22,12 +22,22 @@ const dataStructures = [
     './Keeper/DataStructures/Stack.js', 
     './Keeper/DataStructures/Tree.js'
 ]
+
+const builderExtensions = [
+    './Builder/Extensions/Accordion.js', 
+    './Builder/Extensions/Card.js', 
+    // './Builder/Extensions/Modal.js', 
+    // './Builder/Extensions/Tablist.js'
+]
  
 const bundleHelpers = () => {
     return src(helpersOrder).pipe(uglify()).pipe(concat('MyHelpers.js')).pipe(dest('./dist/js/'))
 }
 const bundleDataStructures = () => {
     return src(dataStructures).pipe(uglify()).pipe(concat('DataStructures.js')).pipe(dest('./Keeper/'))
+}
+const bundleBuilderExtensions = () => {
+    return src(builderExtensions).pipe(uglify()).pipe(concat('Extensions.js')).pipe(dest('./Builder/'))
 }
 
 const buildStyles = () => {
@@ -38,8 +48,11 @@ exports.bundleHelpers = bundleHelpers
 
 exports.bundleDataStructures = bundleDataStructures
 
+exports.bundleBuilderExtensions = bundleBuilderExtensions
+
 exports.buildStyles = buildStyles
 
 
 //gulp bundleHelpers
 //gulp bundleDataStructures
+//gulp bundleBuilderExtensions
