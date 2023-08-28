@@ -1,8 +1,4 @@
-/*!
- * Builder v0.2.0
- * My Helpers
- * Nathaniel Morales
- */
+ 
   
 class Builder {
     customElement({style, template, script}) {  
