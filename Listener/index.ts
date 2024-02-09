@@ -1,9 +1,12 @@
+import Listener from './Listener'
 const LN = new Listener();
+
+ 
 
 LN.listens([
   {
     element: document.querySelector(".target"),
-    instruction: "test:update",
+    instruction: "test:update:::",
     callback: (e) => {
       e.target.innerText = e.detail.message;
       e.target.style.color = "red";
@@ -20,7 +23,7 @@ LN.listens([
   },
   {
     element: document.getElementById("here"),
-    instruction: ":click",
+    instruction: ":click:::",
     callback: (e) => {
       LN.trigerEvent("test:update", {
         message: "success, print this",
@@ -29,7 +32,7 @@ LN.listens([
   },
   {
     element: document.getElementById("add"),
-    instruction: ":click",
+    instruction: ":click:::",
     callback: (e) => {
       LN.trigerEvent(
         "_test:add",
@@ -42,7 +45,7 @@ LN.listens([
   },
   {
     element: document.getElementById("add2"),
-    instruction: ":click",
+    instruction: ":click:::",
     callback: (e) => {
       LN.trigerEvent(
         "_test:add",
@@ -55,7 +58,7 @@ LN.listens([
   },
   {
     element: document.getElementById("add3"),
-    instruction: "_gethis:click",
+    instruction: "_gethis:click::",
     callback: (e) => {
       LN.trigerEvents([
         ["_test:add", { message: "success, this is added" }, 0],
@@ -64,27 +67,27 @@ LN.listens([
       ]);
     },
   },
-  {
-    element: document.getElementById("add4"),
-    instruction: "_gethis:click:mouseenter" 
-  },
+  // {
+  //   element: document.getElementById("add4"),
+  //   instruction: "_gethis:click:mouseenter:" 
+  // },
   {
     element: document.getElementById("del"),
-    instruction: ":click",
+    instruction: ":click::",
     callback: (e) => {
       LN.ignore("_test:add");
     },
   },
   {
     element: document.getElementById("del2"),
-    instruction: ":click",
+    instruction: ":click::",
     callback: (e) => {
       LN.ignore("_test:add", 1);
     },
   },
   {
     element: document.getElementById("del3"),
-    instruction: ":click",
+    instruction: ":click::",
     callback: (e) => {
       LN.ignore("_test:add", 2);
     },
