@@ -13,7 +13,8 @@
     "noUnusedParameters": true, 
     "skipLibCheck": true,
     "paths": {   
-      "#Listener/*": ["Listener/*"] 
+      "#Listener/*": ["Listener/*"],
+      "#Setter/*": ["Setter/*"],
     }, 
   } 
 }

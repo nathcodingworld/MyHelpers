@@ -9,7 +9,8 @@
     "build": "tsc"
   },
   "imports": {
-    "#Listener/*": "./dist/js/Listener/*.js"
+    "#Listener/*": "./dist/js/Listener/*.js",
+    "#Setter/*": "./dist/js/Setter/*.js"
   },
   "keywords": [],
   "author": "Nathaniel M.",

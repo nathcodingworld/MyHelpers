@@ -16,30 +16,28 @@ const listener = new index_1.default();
 describe("updateText", () => {
     const updateBtn = document.getElementById("update");
     const trigerBtn = document.getElementById("here");
-    //   const targetelement = document.getElementById("target")
-    it("should update text content", () => {
-        listener.listen({
+    listener.listens([{
             instruction: ":click:one:#update",
+            callback: (e) => {
+                e.target.textContent = "Updated text";
+            },
+        }, {
+            instruction: "test:update:one:#update:",
             callback: (e) => {
                 e.target.innerText = "Updated text";
             },
-        });
+        }, {
+            instruction: ":click:one:#here:",
+            callback: () => {
+                listener.trigerEvent("test:update", {}, 0);
+            },
+        }]);
+    it("should update text content on Click", () => {
         updateBtn === null || updateBtn === void 0 ? void 0 : updateBtn.click();
-        assert.equal(updateBtn === null || updateBtn === void 0 ? void 0 : updateBtn.innerText, "Updated text");
+        assert.equal(updateBtn === null || updateBtn === void 0 ? void 0 : updateBtn.textContent, "Updated text");
     });
     it("should triger custom event", () => {
-        listener.listens([{
-                instruction: "test:update:one:#update:",
-                callback: (e) => {
-                    e.target.innerText = 'Updated text';
-                },
-            }, {
-                instruction: ":click:one:#here:",
-                callback: () => {
-                    listener.trigerEvent("test:update", {}, 0);
-                },
-            }]);
         trigerBtn === null || trigerBtn === void 0 ? void 0 : trigerBtn.click();
-        assert.equal(updateBtn === null || updateBtn === void 0 ? void 0 : updateBtn.innerText, "Updated text");
+        assert.equal(updateBtn === null || updateBtn === void 0 ? void 0 : updateBtn.textContent, "Updated text");
     });
 });
