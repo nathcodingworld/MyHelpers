@@ -4,12 +4,20 @@
   "description": "Creating my Own Helpers",
   "main": "index.js",
   "scripts": {
-    "test": "concurrently \"git log --oneline\" \"git log --oneline\""
+    "test": "mocha ./dist/**/*.test.js",
+    "testing": "mocha ./dist/**/*.test.js -w",
+    "build": "tsc"
+  },
+  "imports": {
+    "#Listener/*": "./dist/js/Listener/*.js" 
   },
   "keywords": [],
   "author": "Nathaniel M.",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/jsdom": "^21.1.6",
+    "@types/mocha": "^10.0.6",
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "gulp": "^4.0.2",
@@ -22,7 +30,10 @@
     "sass": "^1.62.1"
   },
   "dependencies": {
+    "chai": "^4.4.0",
     "cypress": "^12.17.1",
-    "glob-parent": "^5.1.2"
+    "glob-parent": "^5.1.2",
+    "jsdom": "^24.0.0",
+    "mocha": "^10.3.0"
   }
 }
