@@ -1,0 +1,36 @@
+name: TypeScript CI
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request: 
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [18]  
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        architecture: x64  
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build TypeScript
+      run: npm run build 
+
+    - name: Run Mocha tests
+      run: npm run test
